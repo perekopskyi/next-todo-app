@@ -13,16 +13,18 @@ export default function Home() {
   }, [])
 
   return (
-    <div>
-      <Head>
-        <title>ToDo app</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
-      <main className="main">
-        <AddTodo />
-        <TodoList {...{ todos }} />
-      </main>
+    <div className="bg-sky-50">
+      <div className="container mx-auto">
+        <Head>
+          <title>ToDo app</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Header />
+        <main className="py-3 flex flex-col items-center justify-center flex-1">
+          <AddTodo />
+          <TodoList {...{ todos }} />
+        </main>
+      </div>
     </div>
   )
 }

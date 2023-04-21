@@ -1,5 +1,5 @@
 export const Header = () => (
-  <div className="header">
-    <h2>ToDo app</h2>
+  <div className="pt-3 flex justify-center text-sky-700">
+    <h1>ToDo app</h1>
   </div>
 )
