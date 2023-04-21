@@ -5,6 +5,7 @@ import { transformDataFromStrapi } from '../helpers/utils'
 
 interface TodosState {
   todos: ExistedTodo[]
+  error: string | null
   getTodos: () => void
   addTodo: (todoText: string) => void
   editTodo: (todo: ExistedTodo) => void
@@ -13,14 +14,19 @@ interface TodosState {
 
 export const useTodosStore = create<TodosState>()(set => ({
   todos: [],
+  error: null,
   getTodos: async () => {
-    const response = await api.getTodos()
-    const todos = response.data.data
-      .map((todo: StrapiTodo) => transformDataFromStrapi(todo))
-      .sort((a: ExistedTodo, b: ExistedTodo) =>
-        b.createdAt.localeCompare(a.createdAt)
-      )
-    set({ todos })
+    try {
+      const response = await api.getTodos()
+      const todos = response.data.data
+        .map((todo: StrapiTodo) => transformDataFromStrapi(todo))
+        .sort((a: ExistedTodo, b: ExistedTodo) =>
+          b.createdAt.localeCompare(a.createdAt)
+        )
+      set({ todos })
+    } catch (error: any) {
+      set({ error: error.message })
+    }
   },
   addTodo: async (todoText: string) => {
     const response = await api.postTodo(todoText)

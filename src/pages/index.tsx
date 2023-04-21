@@ -6,7 +6,7 @@ import { TodoList } from '../containers/todoList'
 import { useTodosStore } from '../store/todos'
 
 export default function Home() {
-  const { todos, getTodos } = useTodosStore()
+  const { getTodos } = useTodosStore()
 
   useEffect(() => {
     getTodos()
@@ -22,7 +22,7 @@ export default function Home() {
         <Header />
         <main className="py-3 flex flex-col items-center justify-center flex-1">
           <AddTodo />
-          <TodoList {...{ todos }} />
+          <TodoList />
         </main>
       </div>
     </div>
