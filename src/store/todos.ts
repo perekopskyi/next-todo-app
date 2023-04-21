@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { ExistedTodo } from '../helpers/types'
 import { api } from '../api'
+import { ExistedTodo, StrapiTodo } from '../helpers/types'
 import { transformDataFromStrapi } from '../helpers/utils'
 
 interface TodosState {
@@ -44,20 +44,20 @@ export const useTodosStore = create<TodosState>()(
               toDoText: newTodoText,
             })
             set(state => ({
-              todos: state.todos.map(_todo => {
-                if (_todo.id === todo.id) {
-                  return transformDataFromStrapi(response.data.data)
-                } else {
-                  return _todo
-                }
-              }),
+              todos: state.todos.map(_todo =>
+                _todo.id === todo.id
+                  ? transformDataFromStrapi(response.data.data)
+                  : _todo
+              ),
             }))
           }
         },
         removeTodo: async todo => {
           if (confirm('Do you really want to delete this item?')) {
             await api.removeTodo(todo.id)
-            set(state => ({ todos: state.todos.filter(t => t.id !== todo.id) }))
+            set(state => ({
+              todos: state.todos.filter(({ id }) => id !== todo.id),
+            }))
           }
         },
       }),
